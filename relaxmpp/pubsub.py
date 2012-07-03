@@ -8,6 +8,7 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
+from tastypie.http import HttpUnauthorized
 from tastypie.resources import Resource
 
 bot_pool = {}
@@ -147,27 +148,32 @@ class DelegatedAuthentication(Authentication):
     and the password are placed into dictionary named "relaxmpp_credentials"
     in the django request object.
     """
+    def _unauthorized(self):
+        response = HttpUnauthorized()
+        response['WWW-Authenticate'] = 'Basic Realm="relaxmpp API"'
+        return response
+
     def is_authenticated(self, request, **kwargs):
         DelegatedAuthentication.credentials = {}
         auth_header = request.META.get('HTTP_AUTHORIZATION', False)
         if not auth_header:
-            return False
+            return self._unauthorized()
         try:
             auth_type, auth_hash = auth_header.split()
         except ValueError:
-            return False
+            return self._unauthorized()
         else:
             if auth_type != 'Basic':
-                return False
+                return self._unauthorized()
             raw_credentials = base64.b64decode(auth_hash)
 
         try:
             jid, password = raw_credentials.split(':')
         except ValueError:
-            return False
+            return self._unauthorized()
         else:
             if not re.match(r'\w+@[\w\.]+', jid):
-                return False
+                return self._unauthorized()
             request.relaxmpp_credentials = {'jid': jid, 'password': password}
             print id(request)
             print request.relaxmpp_credentials

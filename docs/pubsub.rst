@@ -25,14 +25,14 @@ in list responses for performance reasons.
 
 ::
 
- GET /<domain>/pubsub
+ GET /api/<domain>/pubsub
 
 Create a Node
 =============
 
 ::
 
- POST /<domain>/pubsub/
+ POST /api/<domain>/pubsub/
  {}
  {"node": "node_name"}
 
@@ -41,7 +41,7 @@ Get a Node's Configuration
 
 ::
 
- GET /<domain>/pubsub/<node>
+ GET /api/<domain>/pubsub/<node>
 
 Update a Node's Configuration
 =============================
@@ -52,7 +52,7 @@ the XMPP server allows, you should expect the entire update operation to fail.
 
 ::
 
- PUT /<domain>/pubsub/<node>
+ PUT /api/<domain>/pubsub/<node>
  {"config": {"some_field": {"value": "some_value"}}}
 
 Delete a Node
@@ -60,4 +60,4 @@ Delete a Node
 
 ::
 
- DELETE /<domain>/pubsub/<node>
+ DELETE /api/<domain>/pubsub/<node>

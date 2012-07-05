@@ -10,8 +10,9 @@ Authentication and Authorization
 
 Relaxmpp delegates authentication and authorization to the chat server that
 controls the resources being manipulated. You must send an HTTP authentication
-header with your request which includes the JID and password an XMPP user that
-has the permissions required to perform the specified action on the chat server.
+header with your request which includes the JID and password of an XMPP user
+that has the permissions required to perform the specified action on the chat
+server.
 
 Relaxmpp uses the information provided in the HTTP authorization header to open
 an XMPP connection to the chat server and will return a 401 Not Authorized if
